@@ -551,9 +551,9 @@ bnds = [0., 30800.]
 bnds = (bnds, bnds, bnds, bnds, bnds, bnds, bnds, bnds)
 
 
-# sol = scipy.optimize.minimize(cost,\
-#                               variables_0,\
-#                               method='Powell',bounds= bnds)
+sol = scipy.optimize.minimize(cost,\
+                               variables_0,\
+                               method='Powell',bounds= bnds)
 #
 # points = guess_points(in_put,sol.x)
 
@@ -566,7 +566,7 @@ bnds = (bnds, bnds, bnds, bnds, bnds, bnds, bnds, bnds)
 # np.save('Bezier_points',points)
 #    np.save('merit_function',merit_function)
 
-points = np.load('Bezier_points.npy')
+#points = np.load('Bezier_points.npy')
 ##############################################################################
 ### Run the optimisation with random initial condtitions
 

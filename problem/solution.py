@@ -3,7 +3,6 @@ import numpy as np
 from problem_variables.initial_conditions import *
 from curves.math_toolbox import vector_length, transpose
 import matplotlib.pyplot as plt
-from problem.cost import cost
 
 def distance(curve1,curve2):
 
@@ -25,6 +24,10 @@ class solution:
     def plot_waveguides(self):
         for waveguide in self.waveguides:
             waveguide.plot()
+
+    def print_arclength(self):
+        for waveguide in self.waveguides:
+            print(waveguide.arc_length())
 
     def standDev_OPD(self):
         OPD = [waveguide.arc_length() for waveguide in self.waveguides]
@@ -70,37 +73,3 @@ class solution:
                 proximity = distance(self.waveguides[i], self.waveguides[j])
                 min_proximity.append(min(proximity))
         return min(min_proximity)
-
-point_1 = np.array([[10, h1],\
-[x-7*w + h4*np.tan(theta_4*np.pi/180), h4],\
-                    [x-7*w, 0]])
-
-point_2 = np.array([[10, h2],\
-                    [x-3*w + h3*np.tan(theta_3*np.pi/180), h3],
-                    [x-3*w, 0]])
-
-point_3 = np.array([[10, h3],\
-                    [x-2*w + h2*np.tan(theta_2*np.pi/180), h2],\
-                    [x-2*w, 0]])
-
-point_4 = np.array([[10, h4], \
-                    [x + h1 * np.tan(theta_1 * np.pi / 180), h1], \
-                    [x, 0]])
-
-curve_1 = Bezier_curve(point_1)
-curve_2 = Bezier_curve(point_2)
-curve_3 = Bezier_curve(point_3)
-curve_4 = Bezier_curve(point_4)
-
-solution_ = solution(curve_1,curve_2,curve_3,curve_4)
-solution_.plot_waveguides()
-solution_.plot_distances()
-solution_.plot_bend_radii()
-print(solution_.standDev_OPD())
-print(solution_.min_bend_radius())
-print(solution_.min_proximity())
-
-cost_F = cost(solution_,[20,100],[.3,.7],[1e-3,.1e-3])
-
-
-
