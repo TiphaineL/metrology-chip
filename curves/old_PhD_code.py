@@ -683,7 +683,7 @@ pathlength = []
 for i in range(n):
     pathlength.append(arc_length(points[i]))
     stand_dev = np.std(pathlength)
-print('stand dev',stand_dev)
+#print('stand dev',stand_dev)
     #stand_dev_v.append(stand_dev)
 
 stand_dev = np.std(pathlength)

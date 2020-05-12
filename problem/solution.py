@@ -3,6 +3,7 @@ import numpy as np
 from problem_variables.initial_conditions import *
 from curves.math_toolbox import vector_length, transpose
 import matplotlib.pyplot as plt
+from heapq import nsmallest
 
 def distance(curve1,curve2):
 
@@ -45,13 +46,20 @@ class solution:
             plt.show()
 
     def min_bend_radius(self):
-        min_bend_radius = [waveguide.min_bend_radius() for waveguide in self.waveguides]
-        return min(min_bend_radius)
+
+        small_bend_radii = []
+
+        for i in range(self.number_of_guides):
+            bend_radii = self.waveguides[i].bend_radius()
+            small_bend_radii.append(nsmallest(10,bend_radii))
+
+        smallest_bend_radii = nsmallest(10,small_bend_radii)
+        return np.mean(smallest_bend_radii)
 
     def plot_distances(self):
 
         plt.figure()
-
+        constraint = .030
         for i in range(self.number_of_guides):
             for j in range(i + 1, self.number_of_guides):
 
@@ -61,15 +69,18 @@ class solution:
         #plt.plot(constraint, label='Minimum proximity: 30$\mu$m')
         plt.legend(frameon=False)
         plt.xlabel('Chip length (arbitrary unit)')
-        plt.ylabel('Minimum proximity ($\mu$m)')
-        # plt.title('Proximity between each waveguide pair')
+        plt.ylabel('Minimum proximity (mm)')
         plt.show()
 
     def min_proximity(self):
-        min_proximity = []
+
+        small_proximities = []
+
         for i in range(self.number_of_guides):
             for j in range(i + 1, self.number_of_guides):
 
                 proximity = distance(self.waveguides[i], self.waveguides[j])
-                min_proximity.append(min(proximity))
-        return min(min_proximity)
+                small_proximities.append(nsmallest(20,proximity))
+
+        smallest_proximities = nsmallest(20,small_proximities)
+        return np.mean(smallest_proximities)

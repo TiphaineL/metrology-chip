@@ -83,21 +83,41 @@ class Bezier_curve:
 
         if self.dimension == 1:
             plt.plot(self.function())
+            plt.show()
 
         elif self.dimension == 2:
             plt.plot(self.function()[0], self.function()[1])
+            plt.show()
 
         elif self.dimension == 3:
 
             fig = plt.figure()
 
-            for i in range(3):
-                ax = fig.add_subplot(111, projection='3d')
-                ax.plot(self.function()[0], self.function()[1], self.function()[2])
-
+            #for i in range(3):
+            ax = fig.add_subplot(111, projection='3d')
+            ax.plot(self.function()[0], self.function()[1], self.function()[2])
 
         else:
             print('No plotting for dimension > 3')
 
+    def plot_points(self):
+
+        for p in self.points:
+            plt.plot(p[0],p[1],'*k')
 
 
+five_points = np.array( [[30., 32.7],
+                        [22.79868363, 32.7],
+                        [16.12592904, 29.9980646],
+                        [10.19066827, 24.7705209],
+                        [ 0., 25.]])
+
+#five_points = np.array([[30, 33], [13, 25], [14.4, 26.8], [1.9, 25 + 7 * .2 + 1.9 * np.tan(10 * np.pi / 180)],[0,  25 + 7 * .2]])
+#Bezier_curve(np.array([[0,20],[8,20.5],[10,22],[14,33],[25,33]]))
+
+curve = Bezier_curve(five_points)
+curve.plot()
+plt.xlabel('x (mm)')
+plt.ylabel('y (mm)')
+curve.plot_points()
+print(min(curve.bend_radius()))

@@ -4,8 +4,8 @@ from problem.solution import solution
 from curves.Bezier import Bezier_curve
 
 def exponential_coefficient(x,y):
-    a = (np.log(1. / y[1]) - np.log(1. / y[0])) / (x[1] - x[0])
-    b = np.log(1. / y[0]) - a * x[0]
+    a = (np.log(1. / y[0]) - np.log(1. / y[1])) / (x[1] - x[0])
+    b = np.log(1. / y[1]) - a * x[0]
     return np.array([a,b])
 
 def quadratic_coefficient(x,y):
@@ -19,56 +19,57 @@ class cost(object):
 
         self.cost_low_high = np.array([.0001, .01])
 
-        high_bend = 20
-        low_bend = 100
+        self.bend_low_high = np.array([70, 90])
 
-        low_proximity = .3
-        high_proximity = .7
+        self.proximity_low_high = np.array([.03, 1])
 
-        low_opd_std = .1e-3
-        high_opd_std = .5e-3
+        self.opd_std_low_high = np.array([.1e-4, .01])
 
-        self.bend_radius_coefficients = exponential_coefficient(self.cost_low_high, [low_bend, high_bend])
-        self.proximity_coefficients = exponential_coefficient(self.cost_low_high, [low_proximity, high_proximity])
-        self.opd_std_coefficients = quadratic_coefficient(self.cost_low_high, [high_opd_std, low_opd_std])
+        self.bend_radius_coefficients = exponential_coefficient(self.bend_low_high, self.cost_low_high)
+        self.proximity_coefficients = exponential_coefficient(self.proximity_low_high, self.cost_low_high)
+        self.opd_std_coefficients = quadratic_coefficient(self.opd_std_low_high, self.cost_low_high)
 
-        #h1 = 4
-        #h2 = 4 - 0.1
-        #h3 = 4 - 0.2
-        #h4 = 4 - 0.3
+        self.w = .1
 
-        #self.variables = np.array([h1, h2, h3, h4,x])
-
-        #self.x = 8
-
-        self.w = .02
-
-        theta_1 = -10
-        theta_2 = -.1
-        theta_3 = 0
-        theta_4 = 10
+        theta_1 = 1.72
+        theta_2 = 0
+        theta_3 = -.43
+        theta_4 = -1.29
 
         self.angles = np.array([theta_1, theta_2, theta_3, theta_4])
 
     def guess_points(self,variables):
 
-        x = variables[4]
-        #w = variables[5]
-        point_1 = np.array([[15, variables[0]], \
-                            [x - 7 * self.w + variables[0] * np.tan(self.angles[0] * np.pi / 180), variables[0]], \
-                            [x - 7 * self.w, 0]])
+        x0 = 30
+        y0 = 33
 
-        point_2 = np.array([[15, variables[1]], \
-                            [x - 3 * self.w + variables[1] * np.tan(self.angles[1] * np.pi / 180), variables[1]],
-                            [x - 3 * self.w, 0]])
+        y = 25
+        w = .2
+        [A0,B0,C0,D0,E0,A1,B1,C1,D1,E1,A2,B2,C2,D2,E2,A3,B3,C3,D3,E3] = variables
 
-        point_3 = np.array([[15, variables[2]], \
-                            [x - 2 * self.w + variables[2] * np.tan(self.angles[2] * np.pi / 180), variables[2]], \
-                            [x - 2 * self.w, 0]])
+        point_1 = np.array([[x0, y0, 0], \
+                            [A0, y0, 0], \
+                            [B0, C0, D0], \
+                            [E0, y + 7 * w + E0 * np.tan(self.angles[0] * np.pi / 180), 0], \
+                            [0, y + 7 * w, 0]])
 
-        point_4 = np.array([[15, variables[3]], \
-                            [x + variables[3] * np.tan(self.angles[3] * np.pi / 180), variables[3]], \
-                            [x, 0]])
+        point_2 = np.array([[x0, y0 - 0.1, 0], \
+                            [A1, y0 - 0.1, 0], \
+                            [B1, C1, D1], \
+                            [E1, y + 3 * w + E1 * np.tan(self.angles[1] * np.pi / 180), 0],
+                            [0, y + 3 * w, 0]])
+
+        point_3 = np.array([[x0, y0 - 0.2, 0], \
+                            [A2, y0 - 0.2, 0], \
+                            [B2, C2, D2], \
+                            [E2, y + 2 * w + E2 * np.tan(self.angles[2] * np.pi / 180), 0], \
+                            [0, y + 2 * w, 0]])
+
+        point_4 = np.array([[x0, y0 - 0.3, 0], \
+                            [A3, y0 - 0.3, 0], \
+                            [B3, C3, D3], \
+                            [E3, y + E3 * np.tan(self.angles[3] * np.pi/180), 0],\
+                            [0, y + 0, 0]])
 
         return np.array([point_1, point_2, point_3, point_4])
 
@@ -83,18 +84,21 @@ class cost(object):
 
         solution_ = solution(curve_1, curve_2, curve_3, curve_4)
 
-        #return #5.8 / np.exp(self.bend_radius_coefficients [0] * solution_.min_bend_radius() \
-               #             +self.bend_radius_coefficients [1]) + \
-               #2.0 / np.exp(self.proximity_coefficients[0] * solution_.min_proximity() \
-               #             + self.proximity_coefficients[1]) + \
-        #return self.opd_std_coefficients[0] * solution_.standDev_OPD() ** 2 + self.opd_std_coefficients[1]
-        return solution_.standDev_OPD()
+        return 3.0 / np.exp(self.proximity_coefficients[0] * solution_.min_proximity() \
+                           + self.proximity_coefficients[1]) \
+                + 28000.0 * (self.opd_std_coefficients[0] * solution_.standDev_OPD() ** 2 + self.opd_std_coefficients[1]) \
+                + 1/np.exp(self.bend_radius_coefficients [0] * solution_.min_bend_radius() \
+                            +self.bend_radius_coefficients [1])# + \
+
 
     def minimize(self,variables):
-        bnds = ((10, 25), (10, 25), (10, 25), (10,25), (5, 25))#, (-.01, .01))
+        #bnds = ((0, 7), (0, 7), (0, 7), (0,7), (0, 30))#, (-.01, .01))
+        bnds = ((0,100),(0,100))
+
+        bnds = ((22.5,30),(15,22.5),(15,22.5),(-10,10),(0,7.5),(22.5,30),(15,22.5),(15,22.5),(-10,10),(0,7.5),
+                (22.5,30),(15,22.5),(15,22.5),(-10,10),(0,7.5),(22.5,30),(15,22.5),(15,22.5),(-10,10),(0,7.5))
+
+        bnds = ((0,30),(0,30),(0,30),(-10,10),(0,30),(0,30),(0,30),(0,30),(-10,10),(0,30),
+                (0,30),(0,30),(0,30),(-10,10),(0,30),(0,30),(0,30),(0,30),(-10,10),(0,30))
+
         return optimize.minimize(self.function,variables,method='SLSQP',bounds=bnds)#np.array([[3,5],[3,5],[3,5],[3,5]]))
-
-
-#sol = scipy.optimize.minimize(cost,\
-#                               variables_0,\
-#                               method='Powell',bounds= bnds)
