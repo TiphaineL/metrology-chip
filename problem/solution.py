@@ -40,10 +40,11 @@ class solution:
         for waveguide in self.waveguides:
             i += 1
             plt.plot(waveguide.bend_radius(), label='waveguide ' + str(i))
-            plt.xlabel('Chip length (arbitrary unit)')
-            plt.ylabel('Bend radius')
-            plt.legend(frameon=False)
-            plt.show()
+        plt.plot([0, 1000], [20, 20], '--k', label= 'Minimum bend radius 20 mm')
+        plt.xlabel('Chip length (arbitrary unit)')
+        plt.ylabel('Bend radius')
+        plt.legend(frameon=False)
+        plt.show()
 
     def min_bend_radius(self):
 
@@ -53,19 +54,19 @@ class solution:
             bend_radii = self.waveguides[i].bend_radius()
             small_bend_radii.append(nsmallest(10,bend_radii))
 
-        smallest_bend_radii = nsmallest(10,small_bend_radii)
+        smallest_bend_radii = nsmallest(10,np.concatenate(small_bend_radii))
         return np.mean(smallest_bend_radii)
 
     def plot_distances(self):
 
         plt.figure()
-        constraint = .030
         for i in range(self.number_of_guides):
             for j in range(i + 1, self.number_of_guides):
 
                 proximity = distance(self.waveguides[i], self.waveguides[j])
                 label = 'waveguide ' + str(i + 1) + ' and waveguide ' + str(j + 1)
                 plt.plot(proximity, label=label)
+        plt.plot([0, 1000], [0.03, 0.03], '--k', label='Minimum proximity 30 $\mu$m')
         #plt.plot(constraint, label='Minimum proximity: 30$\mu$m')
         plt.legend(frameon=False)
         plt.xlabel('Chip length (arbitrary unit)')
@@ -82,5 +83,5 @@ class solution:
                 proximity = distance(self.waveguides[i], self.waveguides[j])
                 small_proximities.append(nsmallest(20,proximity))
 
-        smallest_proximities = nsmallest(20,small_proximities)
+        smallest_proximities = nsmallest(20,np.concatenate(small_proximities))
         return np.mean(smallest_proximities)

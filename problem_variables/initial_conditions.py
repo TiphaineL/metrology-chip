@@ -1,24 +1,15 @@
 import numpy as np
 
 # all length in mm
+w = 2.5 * 6e-3
 
-h1 = 10
-h2 = 10 - 0.01
-h3 = 10 - 0.02
-h4 = 10 - 0.03
+C_input_pitch = 0.127
+C_pitch_array = np.array([1, 2, 3, 4]) * C_input_pitch
 
-variables = np.array([h1, h2, h3, h4])
+mode_field_diameter = 0.0056
 
-x = 0
+D_output_pitch = 0.2
+D_output_non_redundant_array = np.array([0, 4, 1, 2])*D_output_pitch
 
-w = .05
-
-theta_1 = 10
-theta_2 = 0
-theta_3 = -.1
-theta_4 = -10
-
-angles = np.array([theta_1,theta_2,theta_3,theta_4])
-
-
-
+D_output_angles_deg = np.array([1.72, 0, -0.43, -1.29])
+D_output_angles_rad = np.array([0.0299910048568779, 0, -0.0074998593797459025, -0.022496204277883902])
