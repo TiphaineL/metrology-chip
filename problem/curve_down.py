@@ -18,7 +18,7 @@ class cost(object):
 
         [p2x,p3x,p4x] = variables
 
-        h = 0.3
+        h = 0.1
         point = np.array([[0, 0], \
                           [p2x, 0], \
                           [p3x, h], \
@@ -38,11 +38,10 @@ class cost(object):
                             +self.bend_radius_coefficients [1])
 
     def minimize(self,variables):
-        bnds = ((-100, 100), (-100, 100), (0, 5.13))
+        bnds = ((-100, 100), (-100, 100), (0, 3))
 
         return optimize.minimize(self.function,variables,method='SLSQP', bounds=bnds)
 
-h = 0.3
 variables = np.array([0.5, 0.5, 1])
 test = cost()
 

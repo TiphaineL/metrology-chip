@@ -88,6 +88,8 @@ class Bezier_curve:
         elif self.dimension == 2:
             plt.plot(self.function()[0], self.function()[1])
             plt.show()
+            plt.xlabel('x (mm)')
+            plt.ylabel('z (mm)')
             #plt.xlim(0,50)
             #plt.ylim(0,35)
 
