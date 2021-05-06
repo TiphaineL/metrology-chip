@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="ad0e32a1-0430-4cb6-881c-6bb28c3649e6" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/Bezier.py" beforeDir="false" afterPath="$PROJECT_DIR$/Bezier.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../problem/cost.py" beforeDir="false" afterPath="$PROJECT_DIR$/../problem/cost.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../problem/curve_down.py" beforeDir="false" afterPath="$PROJECT_DIR$/../problem/curve_down.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../problem/guess_points.py" beforeDir="false" afterPath="$PROJECT_DIR$/../problem/guess_points.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../problem/optimiser.py" beforeDir="false" afterPath="$PROJECT_DIR$/../problem/optimiser.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../problem_variables/initial_conditions.py" beforeDir="false" afterPath="$PROJECT_DIR$/../problem_variables/initial_conditions.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="1icG1Kt4M8eZJX9mnE2hG7VbULf" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="compactDirectories" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
+    <option name="sortByType" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ad0e32a1-0430-4cb6-881c-6bb28c3649e6" name="Default Changelist" comment="" />
+      <created>1602199250882</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1602199250882</updated>
+    </task>
+    <servers />
+  </component>
+</project>
